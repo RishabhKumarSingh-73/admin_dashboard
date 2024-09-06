@@ -1,70 +1,76 @@
+
+import 'dart:async';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:ngo_admin/donated_things.dart';
-import 'package:ngo_admin/volunter_req.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:ngo_admin/HomePage.dart';
+import 'package:ngo_admin/firebase_options.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); // this is initializing firebase
-  runApp(MYAPP());
+import 'authenticationScreen/loginScreen.dart';
+
+
+
+
+Future<void> main() async
+{
+   WidgetsFlutterBinding.ensureInitialized();
+   await Firebase.initializeApp(
+     options: DefaultFirebaseOptions.currentPlatform
+   );
+   runApp(Admin());
 }
 
-class MYAPP extends StatelessWidget {
-  const MYAPP({super.key});
+
+class Admin extends StatelessWidget {
+  const Admin({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MyApp(),
+      home: Front(),
     );
   }
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+
+class Front extends StatefulWidget {
+  const Front({super.key});
+
+  @override
+  State<Front> createState() => _FrontState();
+}
+
+class _FrontState extends State<Front> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    Timer(Duration(seconds: 2),(){
+
+       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>(FirebaseAuth.instance.currentUser==null)?LoginPage():Homepage()));
+
+    });
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 140,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Donated_page()));
-                  },
-                  child: Text('DONATED THINGS')),
-              SizedBox(
-                height: 30,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => maill()));
-                  },
-                  child: Text('things needed')),
-              SizedBox(
-                height: 40,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => maill()));
-                  },
-                  child: Text('VOLUNTEAR REQUEST'))
-            ],
-          ),
-        ),
+    return Scaffold(
+      
+      body: Center(
+        child: Text("ADMIN NGO",style: GoogleFonts.aBeeZee(
+          fontSize: 30
+        ),),
       ),
     );
   }
 }
+
+
+
+
