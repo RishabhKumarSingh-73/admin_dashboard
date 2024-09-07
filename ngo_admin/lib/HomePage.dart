@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:ngo_admin/donatedPeopleMapping.dart';
 import 'package:ngo_admin/volunteerReqHandling.dart';
 
 class Homepage extends StatefulWidget {
@@ -78,54 +79,62 @@ class _HomeState extends State<Home> {
         }
       return ListView.builder(itemBuilder: (context,index){
 
-        return Card(
-          child: Container(
-            margin: EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        return InkWell(
+          onTap: (){
+            print("Clicked card");
+            Navigator.push(context, MaterialPageRoute(builder: (ctx)=>DonatedPeopleList(options:snapshot.data?.docs[index]['options'].toString(),)));
+          },
+          child: Card(
+            child: Container(
+              margin: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
 
-              children: [
-                Row(
+                children: [
+                  Row(
 
-                  children: [
-                    CircleAvatar(
+                    children: [
+                      CircleAvatar(
 
-                      child: Text("${snapshot.data?.docs[index]['name'][0].toString().toUpperCase()}"),
-                    ),
+                        child: Text("${snapshot.data?.docs[index]['name'][0].toString().toUpperCase()}"),
+                      ),
 
-                    SizedBox(width: 20,),
-                    Text("${snapshot.data?.docs[index]['name'].toString()}",style: GoogleFonts.aBeeZee(
-                        fontWeight: FontWeight.bold,
+                      SizedBox(width: 20,),
+                      Text("${snapshot.data?.docs[index]['name'].toString()}",style: GoogleFonts.aBeeZee(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18
+                      ),),
+
+                    ],
+                  ),
+
+                  Container(
+                    padding: EdgeInsets.only(left: 60),
+                    child: Text("${snapshot.data?.docs[index]['phone'].toString()}",style: GoogleFonts.aBeeZee(
+                        color: Colors.grey,
                         fontSize: 18
                     ),),
+                  ),
+
+                  Container(
+                    padding: EdgeInsets.only(left: 60),
+                    child: Text("${snapshot.data?.docs[index]['queryname'].toString()}",style: GoogleFonts.aBeeZee(
+                        color: Colors.red,
+                        fontSize: 18
+                    ),),
+                  ),
+
+                  Container(
+                    padding: EdgeInsets.only(left: 60),
+                    child: Text("${snapshot.data?.docs[index]['options'].toString()}",style: GoogleFonts.aBeeZee(
+                        color: Colors.blue,
+                        fontSize: 18
+                    ),),
+                  ),
 
 
-
-
-
-
-
-                  ],
-                ),
-
-                Container(
-                  padding: EdgeInsets.only(left: 60),
-                  child: Text("${snapshot.data?.docs[index]['phone'].toString()}",style: GoogleFonts.aBeeZee(
-                      color: Colors.grey,
-                      fontSize: 18
-                  ),),
-                ),
-
-                Container(
-                  padding: EdgeInsets.only(left: 60),
-                  child: Text("${snapshot.data?.docs[index]['queryname'].toString()}",style: GoogleFonts.aBeeZee(
-                      color: Colors.red,
-                      fontSize: 18
-                  ),),
-                ),
-
-
-              ],
+                ],
+              ),
             ),
           ),
         );
