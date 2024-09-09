@@ -81,7 +81,8 @@ class _HomeState extends State<Home> {
 
         return InkWell(
           onTap: (){
-            print("Clicked card");
+            print("Clicked card ${snapshot.data?.docs.length}");
+
             Navigator.push(context, MaterialPageRoute(builder: (ctx)=>DonatedPeopleList(options:snapshot.data?.docs[index]['options'].toString(),)));
           },
           child: Card(
@@ -128,6 +129,13 @@ class _HomeState extends State<Home> {
                     padding: EdgeInsets.only(left: 60),
                     child: Text("${snapshot.data?.docs[index]['options'].toString()}",style: GoogleFonts.aBeeZee(
                         color: Colors.blue,
+                        fontSize: 18
+                    ),),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 60),
+                    child: Text("${snapshot.data?.docs[index]['discription'].toString()}",style: GoogleFonts.aBeeZee(
+                        color: Colors.purple,
                         fontSize: 18
                     ),),
                   ),
