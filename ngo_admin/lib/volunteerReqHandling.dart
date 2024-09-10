@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -50,15 +52,26 @@ class _VolunteerRequestHandlerState extends State<VolunteerRequestHandler> {
                                     );
 
                                     await launchUrl(emailUri);
+                                    User user = (await FirebaseAuth.instance
+                                            .createUserWithEmailAndPassword(
+                                                email:
+                                                    '${snapshot.data!.docs[index]['email'].toString()}',
+                                                password:
+                                                    '${snapshot.data!.docs[index]['phoneNumBer'].toString()}'))
+                                        .user!;
+
                                     await FirebaseFirestore.instance
-                                        .collection('ADMIN PANEL DETAILS')
+                                        .collection('volunteers')
                                         .add({
                                       'email':
                                           '${snapshot.data!.docs[index]['email'].toString()}',
                                       'name':
                                           '${snapshot.data?.docs[index]['name'].toString()}',
                                       'phone':
-                                          '${snapshot.data!.docs[index]['phoneNumBer'].toString()}'
+                                          '${snapshot.data!.docs[index]['phoneNumBer'].toString()}',
+                                      'lat': '',
+                                      'long': '',
+                                      'id': user.uid.toString(),
                                     });
                                   },
                                   child: Text("ACCEPT")),
