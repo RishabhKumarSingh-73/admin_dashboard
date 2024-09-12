@@ -55,7 +55,7 @@ class _AssignVolunteerToQueryAndRequirementState extends State<AssignVolunteerTo
       return doc.data() as Map<String, dynamic>; 
     }).toList(); 
             print(volunteer);
-
+            volunteer = volunteer.where((val) => val['isAvailable'] == true).toList();
             //calculating distance of each volunteer with current donated product
             volunteer.forEach((vol){
               vol['distance'] = calculateDistance(widget.lat, widget.long, vol['lat'], vol['long']);
@@ -89,7 +89,8 @@ class _AssignVolunteerToQueryAndRequirementState extends State<AssignVolunteerTo
                     String assignedId = docRef.id;
 
                     FirebaseFirestore.instance.collection('volunteers').doc(volunteer[Index]['id']).update({
-                      'assignments' : FieldValue.arrayUnion([assignedId])
+                      'assignments' : FieldValue.arrayUnion([assignedId]),
+                      'isAvailable' : false
                     });
                   },
 
