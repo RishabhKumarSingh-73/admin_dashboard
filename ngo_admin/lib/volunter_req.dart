@@ -57,17 +57,9 @@ class _maillState extends State<maill> {
                                   ))
                                       .user!;
 
-                                  if (user != null) {
-                                    user.updateDisplayName("volunteer");
-                                    // Navigator.of(context).pop();
-                                    print(
-                                        "user details is ${user.displayName}");
-                                  } else {
-                                    print("User authentication faliled");
-
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(content: Text("NULL")));
-                                  }
+                                  user.updateDisplayName("volunteer");
+                                  // Navigator.of(context).pop();
+                                  print("user details is ${user.displayName}");
                                 } on FirebaseAuthException catch (e) {
                                   String x = e.code.toString();
                                 } catch (e) {
